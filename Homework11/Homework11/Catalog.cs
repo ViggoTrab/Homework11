@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Homework11
 {
@@ -26,25 +26,39 @@ namespace Homework11
 
         public void SerializeJsonDemo()
         {
-            string json = JsonConvert.SerializeObject(Products, Formatting.Indented);
+            string serializedJson = JsonSerializer.Serialize(Products);
 
-            Console.WriteLine("Serialized Products:");
+            Console.WriteLine("Serialized Products.");
             Console.WriteLine();
-            Console.WriteLine(json);
+            Console.WriteLine(serializedJson);
         }
 
-        public void DeserializeJsonDemo(string jsonString)
+        public void DeserializeJsonDemo()
         {
-            var products = JsonConvert.DeserializeObject<List<Product>>(jsonString);
-
-            Products.AddRange(products);
-
-            Console.WriteLine("Deserialized Products:");
-            Console.WriteLine();
-            foreach (var product in Products)
+            try
             {
-                Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+                string newProductJson = "[{\"Name\":\"Product4\",\"Price\":60,\"Quantity\":40}]";
+
+                List<Product> deserializedJson = JsonSerializer.Deserialize<List<Product>>(newProductJson);
+
+                Console.WriteLine("Deserialized Products.");
+                Console.WriteLine();
+                foreach (var product in Products)
+                {
+                    Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+                }
+
+                foreach (var product in deserializedJson)
+                {
+                    Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+                }
+
             }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
         }
     }
 }

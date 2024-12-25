@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Homework11
 {
@@ -21,10 +21,7 @@ namespace Homework11
 
                 catalog.SerializeJsonDemo();
                 Console.WriteLine();
-
-                string newProductJson = "[{\"Name\":\"Product4\",\"Price\":60,\"Quantity\":40}]";
-
-                catalog.DeserializeJsonDemo(newProductJson);
+                catalog.DeserializeJsonDemo();
             }
             catch (InvalidPriceException ex)
             {

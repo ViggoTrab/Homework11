@@ -16,7 +16,7 @@ namespace Homework11
         {
             if (price < 0)
             {
-                throw new InvalidPriceException("Product with negative price.");
+                throw new InvalidPriceException("Error, product with a negative price.");
             }
 
             Name = name;
