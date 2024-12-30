@@ -16,43 +16,42 @@ namespace Homework11
             Products = new List<Product>();
         }
 
-        public void AddProduct(List<Product> products)
+        public void AddProducts(Product product)
         {
-            foreach (var product in products)
+            Products.Add(product);
+        }
+
+        public List<string> SerializeJsonDemo()
+        {
+            List<string> serializedProducts = new List<string>();
+
+            foreach (var product in Products)
             {
-                Products.Add(product);
+                string serializedJson = JsonSerializer.Serialize(product);
+                serializedProducts.Add(serializedJson);
             }
+
+            foreach (var serializedProduct in serializedProducts)
+            {
+                Console.WriteLine(serializedProduct);
+            }
+
+            return serializedProducts;
         }
 
-        public void SerializeJsonDemo()
-        {
-            string serializedJson = JsonSerializer.Serialize(Products);
-
-            Console.WriteLine("Serialized Products.");
-            Console.WriteLine();
-            Console.WriteLine(serializedJson);
-        }
-
-        public void DeserializeJsonDemo()
+        public void DeserializeJsonDemo(List<string> serializedProducts)
         {
             try
             {
-                string newProductJson = "[{\"Name\":\"Product4\",\"Price\":60,\"Quantity\":40}]";
-
-                List<Product> deserializedJson = JsonSerializer.Deserialize<List<Product>>(newProductJson);
-
-                Console.WriteLine("Deserialized Products.");
-                Console.WriteLine();
-                foreach (var product in Products)
+                foreach (var productJson in serializedProducts)
                 {
-                    Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
-                }
+                    List<Product> deserializedProducts = JsonSerializer.Deserialize<List<Product>>(productJson);
 
-                foreach (var product in deserializedJson)
-                {
-                    Console.WriteLine($"Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+                    foreach (var product in deserializedProducts)
+                    {
+                        AddProducts(product);
+                    }
                 }
-
             }
             catch (JsonException ex)
             {
